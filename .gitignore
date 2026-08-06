@@ -1,0 +1,6 @@
+.pio
+.vscode
+.idea
+managed_components
+include/wifi_config.h
+include/mqtt_broker_config.h
