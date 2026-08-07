@@ -1,5 +1,11 @@
 # Relay Controller using seeed Xiao ESP32 C6 and a one channel relay module by sending json messages to a mqtt topic
 
+## What this is
+
+A PlatformIO project for a Seeed Xiao ESP32-C6, built on **ESP-IDF directly** (`framework = espidf` in `platformio.ini`) — not Arduino. There is no `Serial`, no `setup()`/`loop()` Arduino entry points, and no Arduino libraries available unless explicitly added. Entry point is `extern "C" void app_main(void)` in `src/main.cpp`.
+
+The board drives a relay wired to GPIO1, switched on/off by MQTT command messages received over WiFi (TLS, mutual auth). More relay-controller devices sharing the same broker/topics are expected in the future — the command payload always carries a target device id.
+
 ## Get started with the ESP32
 
 [Get started](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/)
