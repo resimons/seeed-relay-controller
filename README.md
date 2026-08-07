@@ -43,7 +43,7 @@ It's state is send to the configured topic MQTT_TOPIC_RELAY_STATE:
 
 Commands can be send to the configured topic MQTT_TOPIC_RELAY_COMMAND:
 
-{"state":"off","device":"MCUDEVICE-<mac address"} or {"state":"on","device":"MCUDEVICE-<mac address>"}
+{"state":"off","device":"MCUDEVICE-<mac address>"} or {"state":"on","device":"MCUDEVICE-<mac address>"}
 
 Note that the given device identifier must match with the one of the i-am-alive-message. The esp echoes the new state in the state topic.
 
