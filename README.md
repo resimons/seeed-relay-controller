@@ -37,7 +37,7 @@ It produces an i-am-alive-message first on the configured topic MQTT_TOPIC_IAMAL
 
 `{"device":"MCUDEVICE-<id>","manufacturer":"xiao","device_type":"esp32c6","type":"iamalive","mac":"XX:XX:XX:XX:XX:X"}`
 
-It's state is send to the configured topic MQTT_TOPIC_RELAY_STATE:
+Its state is send to the configured topic MQTT_TOPIC_RELAY_STATE:
 
 `{"state":"off|on","device":"MCUDEVICE-<id>"}`
 
