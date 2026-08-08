@@ -36,17 +36,25 @@ void mqtt_client_manager_setup(void)
     s_command_queue = xQueueCreate(1, sizeof(bool));
 
     char broker_uri[64];
-    snprintf(broker_uri, sizeof(broker_uri), "mqtts://%s:%d", MQTT_BROKER_HOST, MQTT_BROKER_PORT);
+    snprintf(broker_uri, sizeof(broker_uri), MQTT_BROKER_USE_TLS ? "mqtts://%s:%d" : "mqtt://%s:%d",
+             MQTT_BROKER_HOST, MQTT_BROKER_PORT);
 
     esp_mqtt_client_config_t mqtt_config = {};
     mqtt_config.broker.address.uri = broker_uri;
-    // Validate the broker's server certificate against this root CA.
-    mqtt_config.broker.verification.certificate = MQTT_BROKER_ROOT_CA;
     mqtt_config.credentials.username = MQTT_BROKER_USERNAME;
     mqtt_config.credentials.authentication.password = MQTT_BROKER_PASSWORD;
+#if MQTT_BROKER_USE_TLS
+#if MQTT_BROKER_VERIFY_CERTIFICATE
+    // Validate the broker's server certificate against this root CA.
+    mqtt_config.broker.verification.certificate = MQTT_BROKER_ROOT_CA;
+#else
+    // No root CA set: esp-tls falls back to MBEDTLS_SSL_VERIFY_NONE, accepting
+    // any server certificate. TLS still encrypts the connection either way.
+#endif
     // Mutual TLS: present this device's own certificate/key to the broker.
     mqtt_config.credentials.authentication.certificate = MQTT_BROKER_CERTIFICATE;
     mqtt_config.credentials.authentication.key = MQTT_BROKER_PRIVATE_KEY;
+#endif
 
     s_client = esp_mqtt_client_init(&mqtt_config);
     esp_mqtt_client_register_event(s_client, MQTT_EVENT_CONNECTED, mqtt_event_handler, NULL);

@@ -10,6 +10,16 @@
 #define MQTT_TOPIC_RELAY_COMMAND "devices/relay/command"
 #define MQTT_TOPIC_RELAY_STATE "devices/relay/state"
 
+// Set to 0 to connect over plain "mqtt://" instead of "mqtts://" (no TLS at all,
+// no certificates used). Leave at 1 for TLS with mutual authentication.
+#define MQTT_BROKER_USE_TLS 1
+
+// Only relevant when MQTT_BROKER_USE_TLS is 1. Set to 0 to skip validating the
+// broker's server certificate against MQTT_BROKER_ROOT_CA (accepts any server
+// certificate) — useful for a broker with a self-signed cert during local testing.
+// Client mutual-auth certificate/key below are still presented either way.
+#define MQTT_BROKER_VERIFY_CERTIFICATE 1
+
 // Fill with the broker's CA certificate, PEM format, LINE ENDING preserved (\n per line).
 #define MQTT_BROKER_ROOT_CA \
 "-----BEGIN CERTIFICATE-----\n" \
