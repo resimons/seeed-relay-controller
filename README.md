@@ -35,15 +35,15 @@ The esp is making a connection to local WiFi network as defined in the file incl
 After having a WiFi connection it connects to a mqtt broker using TLS and verifying certificates. All to be defined in the file include/mqtt_broker_config.h.
 It produces an i-am-alive-message first on the configured topic MQTT_TOPIC_IAMALIVE:
 
-{"device":"MCUDEVICE-9CFEFFA3BD10","manufacturer":"xiao","device_type":"esp32c6","type":"iamalive","mac":"10:bd:a3:9c:91:d4","rssi":-72}
+`{"device":"MCUDEVICE-<id>","manufacturer":"xiao","device_type":"esp32c6","type":"iamalive","mac":"XX:XX:XX:XX:XX:X"}`
 
-It's state is send to the configured topic MQTT_TOPIC_RELAY_STATE:
+Its state is send to the configured topic MQTT_TOPIC_RELAY_STATE:
 
-{"state":"off","device":"MCUDEVICE-<mac address>"}
+`{"state":"off|on","device":"MCUDEVICE-<id>"}`
 
 Commands can be send to the configured topic MQTT_TOPIC_RELAY_COMMAND:
 
-{"state":"off","device":"MCUDEVICE-<<mac address>>"} or {"state":"on","device":"MCUDEVICE-<mac address>"}
+`{"state":"off|on","device":"MCUDEVICE-<id>"}`
 
 Note that the given device identifier must match with the one of the i-am-alive-message. The esp echoes the new state in the state topic.
 
