@@ -6,7 +6,7 @@
 #define MQTT_BROKER_PORT 8883
 #define MQTT_BROKER_USERNAME "your-username"
 #define MQTT_BROKER_PASSWORD "your-password"
-#define MQTT_TOPIC_IAMALIVE "devices/iamalive"
+#define MQTT_TOPIC_HEARTBEAT "devices/heartbeat"
 #define MQTT_TOPIC_RELAY_COMMAND "devices/relay/command"
 #define MQTT_TOPIC_RELAY_STATE "devices/relay/state"
 
