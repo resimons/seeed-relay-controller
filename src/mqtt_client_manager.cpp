@@ -73,7 +73,7 @@ void mqtt_client_manager_setup(void)
     }
 }
 
-void mqtt_client_manager_publish_iamalive(void)
+void mqtt_client_manager_publish_heartbeat(void)
 {
     char device_id[DEVICE_IDENTITY_ID_LEN];
     char mac_str[DEVICE_IDENTITY_MAC_STR_LEN];
@@ -82,11 +82,11 @@ void mqtt_client_manager_publish_iamalive(void)
 
     char payload[MQTT_PAYLOAD_MAX_LEN];
     int payload_len = snprintf(payload, sizeof(payload),
-                                "{\"device\":\"%s\",\"manufacturer\":\"xiao\",\"device_type\":\"esp32c6\",\"type\":\"iamalive\",\"mac\":\"%s\",\"rssi\":%d}",
+                                "{\"device\":\"%s\",\"manufacturer\":\"xiao\",\"device_type\":\"esp32c6\",\"type\":\"heartbeat\",\"mac\":\"%s\",\"rssi\":%d}",
                                 device_id, mac_str, get_rssi());
 
-    esp_mqtt_client_publish(s_client, MQTT_TOPIC_IAMALIVE, payload, payload_len, 1, 0);
-    ESP_LOGI(TAG, "published to '%s': %s", MQTT_TOPIC_IAMALIVE, payload);
+    esp_mqtt_client_publish(s_client, MQTT_TOPIC_HEARTBEAT, payload, payload_len, 1, 0);
+    ESP_LOGI(TAG, "published to '%s': %s", MQTT_TOPIC_HEARTBEAT, payload);
 }
 
 void mqtt_client_manager_publish_relay_state(bool relay_on)

@@ -11,7 +11,7 @@ extern "C" void app_main(void)
     relay_controller_setup();
     wifi_manager_setup();
     mqtt_client_manager_setup();
-    mqtt_client_manager_publish_iamalive();
+    mqtt_client_manager_publish_heartbeat();
     mqtt_client_manager_publish_relay_state(relay_controller_get_state());
 
     while (1) {
