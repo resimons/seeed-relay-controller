@@ -8,6 +8,7 @@
 #include "device_identity.h"
 #include "esp_event.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/event_groups.h"
@@ -76,14 +77,15 @@ void mqtt_client_manager_setup(void)
 void mqtt_client_manager_publish_heartbeat(void)
 {
     char device_id[DEVICE_IDENTITY_ID_LEN];
-    char mac_str[DEVICE_IDENTITY_MAC_STR_LEN];
     device_identity_get_id(device_id, sizeof(device_id));
-    device_identity_get_mac(mac_str, sizeof(mac_str));
+
+    // esp_timer_get_time() is microseconds since boot; heartbeat uptime is reported in minutes.
+    int64_t uptime_minutes = esp_timer_get_time() / 1000000LL / 60LL;
 
     char payload[MQTT_PAYLOAD_MAX_LEN];
     int payload_len = snprintf(payload, sizeof(payload),
-                                "{\"device\":\"%s\",\"manufacturer\":\"xiao\",\"device_type\":\"esp32c6\",\"type\":\"heartbeat\",\"mac\":\"%s\",\"rssi\":%d}",
-                                device_id, mac_str, get_rssi());
+                                "{\"device\":\"%s\",\"device_type\":\"Seeed Studio Xiao ESP32 C6\",\"type\":\"heartbeat\",\"uptime\":%lld,\"rssi\":%d}",
+                                device_id, uptime_minutes, get_rssi());
 
     esp_mqtt_client_publish(s_client, MQTT_TOPIC_HEARTBEAT, payload, payload_len, 1, 0);
     ESP_LOGI(TAG, "published to '%s': %s", MQTT_TOPIC_HEARTBEAT, payload);
